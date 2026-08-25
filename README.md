@@ -14,6 +14,12 @@ An automated full-stack application that transforms static PDF resumes into job-
 
 ---
 
+## 📸 Demo
+
+![AI Resume Tailor Screenshot](./screenshots/demo.png)
+
+---
+
 ## 🏗️ System Architecture
 
 [ Upload PDF ] + [ Job Description ]
