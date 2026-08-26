@@ -14,6 +14,12 @@ An interactive full-stack web application that allows users to pick professional
 
 ---
 
+## 📸 Screenshot
+
+![AI-Resume-Builder](screenshots/demo.png)
+
+---
+
 ## 🛠️ Tech Stack
 
 * **Framework:** Next.js (App Router, TypeScript)
