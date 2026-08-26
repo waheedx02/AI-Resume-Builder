@@ -3,37 +3,35 @@ import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: NextRequest) {
   try {
-    const { resumeText, jobDescription } = await req.json();
+    const { contactInfo, rawExperience, jobDescription } = await req.json();
 
-    if (!resumeText || !jobDescription) {
+    if (!contactInfo?.fullName || !jobDescription) {
       return NextResponse.json(
-        { error: "Both resume text and job description are required." },
+        { error: "Full Name and Job Description are required." },
         { status: 400 }
       );
     }
 
-    const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
-    });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const prompt = `
-      You are an expert AI resume builder and ATS optimization specialist.
-      Analyze the provided Base Resume Text and Target Job Description.
-      
-      Task:
-      1. Extract candidate's full name.
-      2. Rewrite the professional summary to target the job description.
-      3. Identify and list top matching technical and soft skills.
-      4. Create structured bullet points highlighting relevant achievements.
+      You are an elite executive resume writer.
+      Generate a professional ATS resume using the provided Candidate Info and Target Job Description.
 
-      Base Resume:
-      ${resumeText}
+      Candidate Info:
+      - Full Name: ${contactInfo.fullName}
+      - Targeted Job Title: ${contactInfo.jobTitle || "Professional"}
+      - Raw Past Experience/Background Notes: ${rawExperience || "Extensive experience in the field"}
 
-      Job Description:
+      Target Job Description:
       ${jobDescription}
+
+      Tasks:
+      1. Write an impactful 3-sentence summary tailored directly to the target job description.
+      2. Extract 8-12 top technical and soft skills requested in the job description that match the candidate's background.
+      3. Format work experience into structured companies/roles with 3 powerful, bullet points using strong action verbs and quantitative metrics.
     `;
 
-    // Updated model parameter
     const response = await ai.models.generateContent({
       model: "gemini-3.6-flash",
       contents: prompt,
@@ -42,12 +40,8 @@ export async function POST(req: NextRequest) {
         responseSchema: {
           type: "OBJECT",
           properties: {
-            fullName: { type: "STRING" },
             summary: { type: "STRING" },
-            skills: {
-              type: "ARRAY",
-              items: { type: "STRING" },
-            },
+            skills: { type: "ARRAY", items: { type: "STRING" } },
             experience: {
               type: "ARRAY",
               items: {
@@ -55,29 +49,28 @@ export async function POST(req: NextRequest) {
                 properties: {
                   company: { type: "STRING" },
                   role: { type: "STRING" },
-                  bullets: {
-                    type: "ARRAY",
-                    items: { type: "STRING" },
-                  },
+                  bullets: { type: "ARRAY", items: { type: "STRING" } },
                 },
                 required: ["company", "role", "bullets"],
               },
             },
           },
-          required: ["fullName", "summary", "skills", "experience"],
+          required: ["summary", "skills", "experience"],
         },
       },
     });
 
-    const responseText = response.text || "{}";
-    const tailoredData = JSON.parse(responseText);
+    const aiResult = JSON.parse(response.text || "{}");
 
-    return NextResponse.json(tailoredData);
+    // Merge AI generated fields with direct user contact data
+    const fullResumeData = {
+      ...contactInfo,
+      ...aiResult,
+    };
+
+    return NextResponse.json(fullResumeData);
   } catch (error: any) {
-    console.error("Gemini Tailoring Detailed Error:", error);
-    return NextResponse.json(
-      { error: error?.message || "Failed to generate tailored resume using Gemini" },
-      { status: 500 }
-    );
+    console.error("Gemini Generation Error:", error);
+    return NextResponse.json({ error: error?.message || "Generation failed" }, { status: 500 });
   }
 }
