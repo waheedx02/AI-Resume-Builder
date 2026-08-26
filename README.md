@@ -1,40 +1,16 @@
-# 📄 AI Resume Tailor & ATS Optimizer
+# 📄 AI Resume Builder & Tailor
 
-An automated full-stack application that transforms static PDF resumes into job-tailored, ATS-optimized PDFs. Built with **Next.js App Router**, **TypeScript**, **Google Gemini 3.6 Flash**, and **@react-pdf/renderer**.
+An interactive full-stack web application that allows users to pick professional PDF templates and generate job-targeted, ATS-optimized resumes in seconds. Built with **Next.js App Router**, **TypeScript**, **Google Gemini 3.6 Flash**, and **@react-pdf/renderer**.
 
 ---
 
 ## 🌟 Key Features
 
-* **⚡ Server-Side PDF Parsing:** Asynchronously extracts raw structured text from uploaded PDF resumes.
-* **🧠 Gemini-Powered Optimization:** Leverages Google Gemini AI to analyze job descriptions, extract targeted keywords, rewrite experience bullet points, and re-order skills.
-* **🎯 Guaranteed Structured JSON Outputs:** Uses strict JSON Schema response constraints with the Gemini API to prevent hallucination and guarantee valid payload structures.
-* **📄 Dynamic PDF Rendering:** Generates vector-based, ATS-friendly PDF documents programmatically on the client/server using `@react-pdf/renderer`.
-* **🎨 Modern Split-Screen UI:** Interactive real-time dashboard built with Tailwind CSS, Lucide Icons, and dynamic document previews.
-
----
-
-## 📸 Demo
-
-![AI Resume Tailor Screenshot](./screenshots/demo.png)
-
----
-
-## 🏗️ System Architecture
-
-[ Upload PDF ] + [ Job Description ]
-│
-▼
-[ /api/parse API Route ]
-└─► Server-Side PDF Parser (pdf2json)
-│
-▼
-[ /api/tailor API Route ]
-└─► Google Gemini 3.6 Flash (Structured Output Schema)
-│
-▼
-[ Frontend State & React PDF ]
-└─► Dynamic PDF Render & Instant Download Stream
+* **🎨 Multi-Template Engine:** Choose between distinct vector-rendered PDF layouts (*Modern Minimal* for standard/corporate ATS compliance and *Creative Sidebar* for visual/design roles).
+* **⚡ Minimal Input, Maximum AI Impact:** Requires only basic contact details and rough experience notes—Gemini automatically crafts polished, action-oriented bullet points with metrics.
+* **🧠 Targeted Job Description Tailoring:** Analyzes target job postings to automatically extract top relevant technical skills, soft competencies, and summary statements.
+* **🎯 Guaranteed JSON Schema Enforcement:** Uses strict output schemas with the Gemini API to guarantee valid, structure-safe response payloads every time.
+* **👁️ Live Vector PDF Preview:** Instant side-by-side dynamic PDF preview and instant client-side download powered by `@react-pdf/renderer`.
 
 ---
 
@@ -43,8 +19,7 @@ An automated full-stack application that transforms static PDF resumes into job-
 * **Framework:** Next.js (App Router, TypeScript)
 * **Styling:** Tailwind CSS, Lucide React Icons
 * **AI Model:** Google Gemini API (`gemini-3.6-flash`)
-* **PDF Parsing:** `pdf2json`
-* **PDF Generation:** `@react-pdf/renderer`
+* **PDF Rendering:** `@react-pdf/renderer`
 
 ---
 
@@ -54,9 +29,9 @@ An automated full-stack application that transforms static PDF resumes into job-
 Ensure you have **Node.js 18+** and `npm` installed.
 
 ### 2. Installation
-Clone the repository and install the project dependencies:
+Clone the repository and install dependencies:
 
 ```bash
-git clone [https://github.com/waheedx02/ai-resume-tailor.git](https://github.com/waheedx02/ai-resume-tailor.git)
-cd ai-resume-tailor
+git clone [https://github.com/your-username/ai-resume-builder.git](https://github.com/your-username/ai-resume-builder.git)
+cd ai-resume-builder
 npm install
