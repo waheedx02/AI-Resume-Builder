@@ -1,34 +1,4 @@
 export default function ResuMateLanding() {
-  
-  // Color tokens matching the original design
-  // const colors = {
-  //   navy: {
-  //     900: '#0a1628',
-  //     800: '#0f1d33',
-  //     700: '#162544',
-  //     600: '#1e3560',
-  //   },
-  //   teal: {
-  //     500: '#14b8a6',
-  //     400: '#2dd4bf',
-  //     300: '#5eead4',
-  //     600: '#0d9488',
-  //   },
-  //   slate: {
-  //     100: '#f1f5f9',
-  //     200: '#e2e8f0',
-  //     300: '#cbd5e1',
-  //     400: '#94a3b8',
-  //     500: '#64748b',
-  //     600: '#475569',
-  //     700: '#334155',
-  //     800: '#1e293b',
-  //   },
-  //   white: '#ffffff',
-  //   cream: '#fafaf9',
-  //   amber: { 400: '#fbbf24' },
-  // };
-
   const features = [
     {
       icon: '🤖',
