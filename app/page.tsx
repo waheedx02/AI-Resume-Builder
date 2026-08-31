@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ResuMateLanding() {
   const features = [
     {
@@ -95,41 +97,10 @@ export default function ResuMateLanding() {
     },
   ];
 
-  const pricing = [
-    {
-      name: 'Starter',
-      desc: 'Perfect for trying out',
-      price: '$0',
-      period: '/month',
-      features: ['1 Active Resume', 'All Templates', '3 PDF Downloads/month', 'Basic ATS Score', '10 AI Edits/month'],
-      featured: false,
-      cta: 'Get Started',
-    },
-    {
-      name: 'Pro',
-      desc: 'For serious job seekers',
-      price: '$12',
-      period: '/month',
-      features: ['Unlimited Resumes', 'Unlimited AI Writing', 'Unlimited Downloads', 'Advanced ATS Analysis', 'Job Tailoring', 'Cover Letters', 'Priority Support'],
-      featured: true,
-      cta: 'Start Pro Trial',
-    },
-    {
-      name: 'Lifetime',
-      desc: 'One-time, forever access',
-      price: '$99',
-      period: 'once',
-      features: ['All Pro Features', 'Pay Once, Keep Forever', 'Future Updates Included', 'Mock Interview Access', 'LinkedIn Optimization'],
-      featured: false,
-      cta: 'Go Lifetime',
-    },
-  ];
-
   const navLinks = [
     { label: 'Features', href: '#features' },
     { label: 'How It Works', href: '#how-it-works' },
     { label: 'Templates', href: '#templates' },
-    { label: 'Pricing', href: '#pricing' },
   ];
 
   const stats = [
@@ -140,7 +111,7 @@ export default function ResuMateLanding() {
   ];
 
   const footerLinks = {
-    Product: ['AI Resume Builder', 'ATS Checker', 'Cover Letters', 'Templates', 'Pricing'],
+    Product: ['AI Resume Builder', 'ATS Checker', 'Cover Letters', 'Templates'],
     Resources: ['Resume Examples', 'Career Blog', 'Interview Prep', 'Job Search Guide', 'Help Center'],
     Company: ['About Us', 'Careers', 'Privacy', 'Terms', 'Contact'],
   };
@@ -186,14 +157,6 @@ export default function ResuMateLanding() {
               </li>
             ))}
           </ul>
-          <div className="hidden md:flex gap-3">
-            <a href="#" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[10px] text-sm font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-teal-400 transition-all duration-300 no-underline">
-              Sign In
-            </a>
-            <a href="#" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[10px] text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
-              Get Started Free
-            </a>
-          </div>
           <button className="md:hidden bg-none border-none text-white text-2xl cursor-pointer">☰</button>
         </div>
       </nav>
@@ -219,10 +182,10 @@ export default function ResuMateLanding() {
               everything you need to land interviews faster.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start" style={{ animation: 'fadeInUp 0.6s ease 0.3s both' }}>
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
+              <Link href="/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
                 Build Your Resume Free →
-              </a>
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-teal-400 transition-all duration-300 no-underline">
+              </Link>
+              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-teal-400 transition-all duration-300 no-underline">
                 See How It Works
               </a>
             </div>
@@ -460,50 +423,6 @@ export default function ResuMateLanding() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-[640px] mx-auto mb-12">
-            <div className="inline-block px-4 py-1.5 rounded-full text-[13px] font-semibold mb-4" style={{ background: 'rgba(20, 184, 166, 0.1)', color: '#0d9488' }}>Simple Pricing</div>
-            <h2 className="text-3xl md:text-4xl lg:text-[44px] font-extrabold text-[#0a1628] tracking-[-1px] leading-tight mb-4">Start Free, Upgrade When Ready</h2>
-            <p className="text-lg text-slate-500 leading-relaxed">
-              Build your first resume at no cost. Unlock unlimited AI power when 
-              you are ready to accelerate your job search.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 items-start">
-            {pricing.map((plan, i) => (
-              <div key={i} className={`rounded-[20px] p-10 transition-all duration-300 ${plan.featured ? 'scale-105 lg:scale-105' : 'hover:border-slate-200'} relative`} style={{ 
-                background: plan.featured ? '#0a1628' : '#fafaf9', 
-                border: plan.featured ? '2px solid #14b8a6' : '2px solid transparent',
-                boxShadow: plan.featured ? '0 30px 80px rgba(0,0,0,0.2)' : 'none'
-              }}>
-                {plan.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #14b8a6, #2dd4bf)' }}>
-                    Most Popular
-                  </div>
-                )}
-                <div className={`text-xl font-bold mb-2 ${plan.featured ? 'text-white' : 'text-[#0a1628]'}`}>{plan.name}</div>
-                <div className={`text-sm mb-5 ${plan.featured ? 'text-slate-400' : 'text-slate-500'}`}>{plan.desc}</div>
-                <div className={`text-5xl font-extrabold tracking-[-2px] mb-6 ${plan.featured ? 'text-white' : 'text-[#0a1628]'}`}>
-                  {plan.price}<span className={`text-base font-medium ${plan.featured ? 'text-slate-400' : 'text-slate-400'}`}>{plan.period}</span>
-                </div>
-                <ul className="mb-8 space-y-2">
-                  {plan.features.map((f, fi) => (
-                    <li key={fi} className={`flex items-center gap-2.5 py-2 text-sm ${plan.featured ? 'text-white' : 'text-slate-600'}`}>
-                      <span className={plan.featured ? 'text-teal-400' : 'text-teal-500'}>✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#" className={`block w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-300 no-underline ${plan.featured ? 'text-white hover:-translate-y-0.5' : 'border border-white/20 text-white hover:border-teal-400 hover:text-teal-400'}`} style={plan.featured ? { background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' } : {}}>
-                  {plan.cta}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-24 px-6 text-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #162544 100%)' }}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(20, 184, 166, 0.1) 0%, transparent 70%)' }}></div>
@@ -511,12 +430,9 @@ export default function ResuMateLanding() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-[-1px] mb-4">Ready to Land Your Dream Job?</h2>
           <p className="text-lg text-slate-400 mb-9">Join 4.3 million job seekers who built interview-winning resumes with ResuMate AI.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
+            <Link href="/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
               Build Your Resume Free →
-            </a>
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold transition-all duration-300 hover:-translate-y-0.5 no-underline bg-white text-[#0a1628]" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
-              View Templates
-            </a>
+            </Link>
           </div>
         </div>
       </section>
