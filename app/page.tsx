@@ -182,7 +182,7 @@ export default function ResuMateLanding() {
               everything you need to land interviews faster.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start" style={{ animation: 'fadeInUp 0.6s ease 0.3s both' }}>
-              <Link href="/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
+              <Link href="/builder/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
                 Build Your Resume Free →
               </Link>
               <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-teal-400 transition-all duration-300 no-underline">
@@ -430,7 +430,7 @@ export default function ResuMateLanding() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-[-1px] mb-4">Ready to Land Your Dream Job?</h2>
           <p className="text-lg text-slate-400 mb-9">Join 4.3 million job seekers who built interview-winning resumes with ResuMate AI.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
+            <Link href="/builder/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
               Build Your Resume Free →
             </Link>
           </div>
