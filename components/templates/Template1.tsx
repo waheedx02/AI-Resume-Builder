@@ -1,106 +1,122 @@
-import { Mail, Phone } from 'lucide-react';
+import { Mail, Phone, } from 'lucide-react';
 import { ResumeData } from '../../types/resume';
+
+/* ------------------------------------------------------------------ */
+/*  Reusable section heading — keeps every section visually aligned    */
+/* ------------------------------------------------------------------ */
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="flex items-center gap-2 text-[12.5px] font-bold uppercase tracking-[0.14em] text-blue-900 mb-2.5">
+      <span className="h-[3px] w-5 rounded-full bg-blue-700" />
+      {children}
+      <span className="flex-1 border-t border-blue-200" />
+    </h2>
+  );
+}
 
 export default function Template1({ data }: { data: ResumeData }) {
   const { personalInfo, experience, summary, education, skills, tools, languages } = data;
 
+  const contactItems = [
+    personalInfo?.phone && { icon: <Phone size={11} />, text: personalInfo.phone },
+    personalInfo?.email && { icon: <Mail size={11} />, text: personalInfo.email },
+  ].filter(Boolean) as { icon: React.ReactNode; text: string }[];
+
   return (
     <div className="bg-white text-slate-800 font-sans min-h-[1050px] p-9 text-[13px] leading-relaxed">
-      <header className="flex items-start justify-between border-b border-slate-200 pb-4 mb-5">
-        <div>
-          <h1 className="text-[26px] font-bold text-slate-900 leading-tight">
-            {personalInfo.fullName || 'Your Name'}
-          </h1>
-          {personalInfo.title && (
-            <p className="text-blue-700 font-medium text-[14px] mt-0.5">{personalInfo.title}</p>
+      {/* ---------------------------- Header ---------------------------- */}
+      <header className="mb-6">
+        <div className="flex items-start justify-between gap-6">
+          <div>
+            <h1 className="text-[27px] font-bold text-slate-900 leading-tight tracking-tight">
+              {personalInfo?.fullName || 'Your Name'}
+            </h1>
+            {personalInfo?.title && (
+              <p className="text-blue-700 font-semibold text-[14px] mt-0.5 tracking-wide uppercase text-[12px]">
+                {personalInfo.title}
+              </p>
+            )}
+          </div>
+
+          {contactItems.length > 0 && (
+            <div className="text-right text-[11px] text-slate-600 space-y-1 pt-1">
+              {contactItems.map((item, i) => (
+                <div key={i} className="flex items-center justify-end gap-1.5">
+                  <span className="text-blue-700">{item.icon}</span>
+                  <span>{item.text}</span>
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        <div className="text-right text-[11.5px] text-slate-600 space-y-1 pt-1">
-          {personalInfo.phone && (
-            <div className="flex items-center justify-end gap-1.5">
-              <span>{personalInfo.phone}</span><Phone size={12} className="text-blue-700" />
-            </div>
-          )}
-          {personalInfo.email && (
-            <div className="flex items-center justify-end gap-1.5">
-              <span>{personalInfo.email}</span><Mail size={12} className="text-blue-700" />
-            </div>
-          )}
+
+        {/* Accent rule under the header */}
+        <div className="mt-4 flex items-center">
+          <span className="h-[3px] w-16 rounded-full bg-blue-700" />
+          <span className="flex-1 border-t border-slate-200" />
         </div>
       </header>
 
+      {/* --------------------------- Summary ---------------------------- */}
       {summary && (
         <section className="mb-5">
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            PROFESSIONAL SUMMARY
-          </h2>
-          <p className="text-slate-700">{summary}</p>
+          <SectionTitle>Professional Summary</SectionTitle>
+          <p className="text-slate-700 text-[12.5px] leading-relaxed">{summary}</p>
         </section>
       )}
 
+      {/* ------------------------- Experience --------------------------- */}
       {experience?.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            WORK EXPERIENCE
-          </h2>
+          <SectionTitle>Work Experience</SectionTitle>
           <div className="space-y-3.5">
             {experience.map((exp) => (
-              <div key={exp.id}>
+              <div key={exp.id} className="relative pl-4">
+                {/* Timeline dot + line */}
+                <span className="absolute left-0 top-[6px] h-[7px] w-[7px] rounded-full bg-blue-700" />
+                <span className="absolute left-[3px] top-[16px] bottom-0 w-px bg-blue-100" />
+
                 <div className="flex justify-between items-baseline">
-                  <h3 className="font-semibold text-slate-900">
-                    {exp.role} <span className="font-normal text-slate-500">| {exp.company}</span>
+                  <h3 className="font-semibold text-slate-900 text-[13px]">
+                    {exp.role} <span className="text-slate-500 font-normal">· {exp.company}</span>
                   </h3>
-                  <span className="text-[11px] text-slate-500 whitespace-nowrap">
-                    {exp.startDate} - {exp.endDate}
+                  <span className="text-[10.5px] text-slate-500 whitespace-nowrap font-medium">
+                    {exp.startDate} – {exp.endDate}
                   </span>
                 </div>
-                <ul className="list-disc list-outside ml-4 mt-1 space-y-0.5 text-slate-700">
-                  {exp.description.split('\n').filter(Boolean).map((line, i) => (
-                    <li key={i}>{line}</li>
-                  ))}
-                </ul>
+
+                {exp.description && (
+                  <ul className="mt-1 space-y-0.5 text-slate-700">
+                    {exp.description
+                      .split('\n')
+                      .filter(Boolean)
+                      .map((line, i) => (
+                        <li key={i} className="flex gap-1.5">
+                          <span className="text-blue-600 mt-[2px]">•</span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
         </section>
       )}
 
-      {skills?.length > 0 && (
-        <section className="mb-5">
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            SKILLS
-          </h2>
-          <ul className="list-disc list-outside ml-4 grid grid-cols-2 gap-x-6 gap-y-0.5 text-slate-700">
-            {skills.map((s, i) => <li key={i}>{s}</li>)}
-          </ul>
-        </section>
-      )}
-
-      {tools && tools.length > 0 && (
-        <section className="mb-5">
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            TOOLS & TECHNOLOGIES
-          </h2>
-          <ul className="list-disc list-outside ml-4 grid grid-cols-2 gap-x-6 gap-y-0.5 text-slate-700">
-            {tools.map((t, i) => <li key={i}>{t}</li>)}
-          </ul>
-        </section>
-      )}
-
+      {/* -------------------------- Education --------------------------- */}
       {education?.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            EDUCATION
-          </h2>
-          <div className="space-y-1.5">
+          <SectionTitle>Education</SectionTitle>
+          <div className="space-y-2">
             {education.map((ed) => (
-              <div key={ed.id} className="flex justify-between">
+              <div key={ed.id} className="flex justify-between items-baseline">
                 <div>
                   <span className="font-semibold text-slate-900">{ed.degree}</span>
                   <span className="text-slate-600"> — {ed.institution}</span>
                 </div>
                 <span className="text-[11px] text-slate-500 whitespace-nowrap">
-                  {ed.startDate} - {ed.endDate}
+                  {ed.startDate} – {ed.endDate}
                 </span>
               </div>
             ))}
@@ -108,12 +124,35 @@ export default function Template1({ data }: { data: ResumeData }) {
         </section>
       )}
 
-      {languages && languages.length > 0 && (
+      {/* ---------------------------- Skills ---------------------------- */}
+      {skills?.length > 0 && (
+        <section className="mb-5">
+          <SectionTitle>Skills</SectionTitle>
+          <div className="flex flex-wrap gap-1.5">
+            {skills.map((s, i) => (
+              <span
+                key={i}
+                className="rounded-full bg-blue-50 border border-blue-100 px-2.5 py-[3px] text-[11px] font-medium text-blue-900"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ----------------------- Tools & Laugauges --------------------------- */}
+      {(tools?.length ?? 0) > 0 && (
+        <section className="mb-5">
+          <SectionTitle>Tools & Technologies</SectionTitle>
+          <p className="text-slate-700">{tools?.join(" · ")}</p>
+        </section>
+      )}
+
+      {(languages?.length ?? 0) > 0 && (
         <section>
-          <h2 className="text-[13px] font-bold tracking-wide text-blue-800 border-b-2 border-blue-800/20 pb-1 mb-2.5">
-            LANGUAGES
-          </h2>
-          <p className="text-slate-700">{languages.join('  •  ')}</p>
+          <SectionTitle>Languages</SectionTitle>
+          <p className="text-slate-700">{languages?.join(" · ")}</p>
         </section>
       )}
     </div>
