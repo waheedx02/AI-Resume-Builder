@@ -17,15 +17,19 @@ interface ResumeStore {
 
 const initialData: ResumeData = {
   templateId: 'template-1',
+
   personalInfo: {
     fullName: '',
     email: '',
     phone: '',
-    linkedin: '',
-    website: '',
   },
-  experience: [],
+
   summary: '',
+  experience: [],
+  education: [],
+  skills: [],
+  tools: [],
+  languages: [],
 };
 
 export const useResumeStore = create<ResumeStore>()(
