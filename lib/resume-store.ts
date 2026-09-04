@@ -1,63 +1,57 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { ResumeData, PersonalInfo, Experience } from '@/types/resume';
+import { persist } from 'zustand/middleware';
+// Adjust the import path if your types folder is located elsewhere
+import { ResumeStore, ResumeData } from '../types/resume'; 
 
-interface ResumeStore {
-  resumeData: ResumeData;
-  hasHydrated: boolean;
-  setHasHydrated: (state: boolean) => void;
-  setTemplateId: (id: string) => void;
-  updatePersonalInfo: (info: Partial<PersonalInfo>) => void;
-  addExperience: (exp: Experience) => void;
-  updateExperience: (id: string, exp: Partial<Experience>) => void;
-  removeExperience: (id: string) => void;
-  setSummary: (summary: string) => void;
-  resetForm: () => void;
-}
-
-const initialData: ResumeData = {
-  templateId: 'template-1',
-
+// Define the initial empty state outside the store for cleaner code
+const initialResumeData: ResumeData = {
+  templateId: '',
   personalInfo: {
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    phone: '',
+    mobile: '',
+    linkedin: '',
+    profilePicUrl: '',
   },
-
-  summary: '',
+  professionalSummary: '',
   experience: [],
-  education: [],
   skills: [],
-  tools: [],
   languages: [],
+  tools: [],
 };
 
 export const useResumeStore = create<ResumeStore>()(
   persist(
     (set) => ({
-      resumeData: initialData,
-      hasHydrated: false,
+      resumeData: initialResumeData,
 
-      setHasHydrated: (state) => set({ hasHydrated: state }),
-
+      // --- Template Actions ---
       setTemplateId: (id) =>
         set((state) => ({
           resumeData: { ...state.resumeData, templateId: id },
         })),
 
-      updatePersonalInfo: (info) =>
+      // --- Personal Info Actions ---
+      updatePersonalInfo: (data) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            personalInfo: { ...state.resumeData.personalInfo, ...info },
+            personalInfo: { ...state.resumeData.personalInfo, ...data },
           },
         })),
 
-      addExperience: (exp) =>
+      updateSummary: (summary) =>
+        set((state) => ({
+          resumeData: { ...state.resumeData, professionalSummary: summary },
+        })),
+
+      // --- Experience Array Actions ---
+      addExperience: (experience) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: [...state.resumeData.experience, exp],
+            experience: [...state.resumeData.experience, experience],
           },
         })),
 
@@ -65,8 +59,8 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: state.resumeData.experience.map((item) =>
-              item.id === id ? { ...item, ...updatedExp } : item
+            experience: state.resumeData.experience.map((exp) =>
+              exp.id === id ? { ...exp, ...updatedExp } : exp
             ),
           },
         })),
@@ -75,23 +69,28 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: state.resumeData.experience.filter((item) => item.id !== id),
+            experience: state.resumeData.experience.filter((exp) => exp.id !== id),
           },
         })),
 
-      setSummary: (summary) =>
+      // --- Simple Array Actions ---
+      updateSkills: (skills) =>
         set((state) => ({
-          resumeData: { ...state.resumeData, summary },
+          resumeData: { ...state.resumeData, skills },
         })),
 
-      resetForm: () => set({ resumeData: initialData }),
+      updateLanguages: (languages) =>
+        set((state) => ({
+          resumeData: { ...state.resumeData, languages },
+        })),
+
+      updateTools: (tools) =>
+        set((state) => ({
+          resumeData: { ...state.resumeData, tools },
+        })),
     }),
     {
-      name: 'resume-builder-storage',
-      storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
-      },
+      name: 'resume-builder-storage', // This is the key used in localStorage
     }
   )
 );
