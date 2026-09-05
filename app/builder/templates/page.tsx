@@ -18,6 +18,10 @@ const DOC_WIDTH = 595;
 const CROP_HEIGHT = 330;
 const SCALE = CARD_WIDTH / DOC_WIDTH;
 
+// Fixed reference content for every template card. This is intentionally
+// NOT merged with the user's real resumeData — the templates page is a
+// design gallery, not a live preview, so every card should look identical
+// regardless of what the user has typed elsewhere in the builder.
 const PREVIEW_DATA = {
   personalInfo: {
     firstName: 'Jordan',
@@ -196,18 +200,11 @@ export default function TemplatesStep() {
         <div className="flex flex-wrap justify-center gap-8">
           {filtered.map((tmpl, idx) => {
             const isSelected = resumeData.templateId === tmpl.id;
-            const hasUserData = Boolean(resumeData.personalInfo?.firstName || resumeData.experience?.length || resumeData.skills?.length);
+            // Always the fixed reference content — only templateId changes
+            // per card, so the layout itself is what's being compared.
             const previewData = {
-              ...resumeData,
+              ...PREVIEW_DATA,
               templateId: tmpl.id,
-              personalInfo: hasUserData ? resumeData.personalInfo : PREVIEW_DATA.personalInfo,
-              summary: resumeData.summary || PREVIEW_DATA.summary,
-              experience:
-                resumeData.experience?.length > 0 ? resumeData.experience : PREVIEW_DATA.experience,
-              education: resumeData.education?.length > 0 ? resumeData.education : PREVIEW_DATA.education,
-              skills: resumeData.skills?.length > 0 ? resumeData.skills : PREVIEW_DATA.skills,
-              tools: resumeData.tools?.length ? resumeData.tools : PREVIEW_DATA.tools,
-              languages: resumeData.languages?.length ? resumeData.languages : PREVIEW_DATA.languages,
             };
 
             return (

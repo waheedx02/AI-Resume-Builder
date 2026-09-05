@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useResumeStore } from '@/lib/resume-store';
+import { resumeTemplates } from '@/lib/templates';
 import { BUILDER_STEPS } from '@/lib/steps';
+import { countWords } from '@/lib/text';
 
 export default function BuilderLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -27,8 +29,15 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
           resumeData.personalInfo?.lastName &&
           resumeData.personalInfo?.email
         );
-      case '/builder/experience':
-        return resumeData.experience?.length > 0;
+      case '/builder/experience': {
+        const hasEntry = resumeData.experience?.length > 0;
+        const template = resumeTemplates.find((t) => t.id === resumeData.templateId);
+        const descriptionWordLimit = template?.experienceDescriptionWordLimit ?? Infinity;
+        const noneOverLimit = (resumeData.experience ?? []).every(
+          (exp) => countWords(exp.description) <= descriptionWordLimit
+        );
+        return hasEntry && noneOverLimit;
+      }
       case '/builder/education':
         return true; // education + languages are both optional
       case '/builder/skills':
@@ -60,11 +69,11 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
       <header className="border-b border-slate-800 bg-[#0B132B]/90 backdrop-blur sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-teal-400 text-slate-900 font-bold flex items-center justify-center text-lg">
+            <span className="w-8 h-8 rounded-lg bg-[#10B981] text-slate-900 font-bold flex items-center justify-center text-lg">
               R
             </span>
             <span className="text-xl font-bold tracking-tight">
-              Resu<span className="text-teal-400">Mate</span>
+              Resu<span className="text-[#10B981]">Mate</span>
             </span>
           </Link>
 
@@ -79,7 +88,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                   <div
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition ${
                       isActive
-                        ? 'bg-teal-400/10 border-teal-400 text-teal-400'
+                        ? 'bg-[#10B981]/10 border-[#10B981] text-[#10B981]'
                         : isCompleted
                         ? 'border-slate-700 bg-slate-800/50 text-slate-300'
                         : 'border-slate-800 text-slate-500'
@@ -88,7 +97,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                     <span
                       className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
                         isActive
-                          ? 'bg-teal-400 text-slate-900 font-bold'
+                          ? 'bg-[#10B981] text-slate-900 font-bold'
                           : isCompleted
                           ? 'bg-slate-700 text-slate-300'
                           : 'bg-slate-800 text-slate-500'
@@ -98,7 +107,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                     </span>
                     {step.name}
                   </div>
-                  {idx < BUILDER_STEPS.length - 1 && <span className="text-teal-400 text-xs">/</span>}
+                  {idx < BUILDER_STEPS.length - 1 && <span className="text-slate-700 text-xs">/</span>}
                 </div>
               );
             })}
@@ -108,7 +117,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
         {/* Top Progress Line */}
         <div className="w-full bg-slate-800 h-1">
           <div
-            className="bg-teal-400 h-1 transition-all duration-300"
+            className="bg-[#10B981] h-1 transition-all duration-300"
             style={{ width: `${((activeStep + 1) / BUILDER_STEPS.length) * 100}%` }}
           />
         </div>
@@ -135,7 +144,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
           <button
             onClick={handleNext}
             disabled={isNextDisabled || currentStepIndex >= BUILDER_STEPS.length - 1}
-            className="px-6 py-2.5 rounded-lg bg-teal-400 text-slate-950 hover:bg-teal-500 transition text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 rounded-lg bg-[#10B981] text-slate-950 hover:bg-[#0EA5E9] transition text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Continue →
           </button>
