@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 // Adjust the import path if your types folder is located elsewhere
-import { ResumeStore, ResumeData } from '../types/resume'; 
+import { ResumeStore, ResumeData } from '../types/resume';
 
 // Define the initial empty state outside the store for cleaner code
 const initialResumeData: ResumeData = {
@@ -9,13 +9,15 @@ const initialResumeData: ResumeData = {
   personalInfo: {
     firstName: '',
     lastName: '',
+    title: '',
     email: '',
     mobile: '',
     linkedin: '',
     profilePicUrl: '',
   },
-  professionalSummary: '',
+  summary: '',
   experience: [],
+  education: [],
   skills: [],
   languages: [],
   tools: [],
@@ -43,7 +45,7 @@ export const useResumeStore = create<ResumeStore>()(
 
       updateSummary: (summary) =>
         set((state) => ({
-          resumeData: { ...state.resumeData, professionalSummary: summary },
+          resumeData: { ...state.resumeData, summary },
         })),
 
       // --- Experience Array Actions ---
@@ -70,6 +72,33 @@ export const useResumeStore = create<ResumeStore>()(
           resumeData: {
             ...state.resumeData,
             experience: state.resumeData.experience.filter((exp) => exp.id !== id),
+          },
+        })),
+
+      // --- Education Array Actions ---
+      addEducation: (education) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            education: [...state.resumeData.education, education],
+          },
+        })),
+
+      updateEducation: (id, updatedEdu) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            education: state.resumeData.education.map((edu) =>
+              edu.id === id ? { ...edu, ...updatedEdu } : edu
+            ),
+          },
+        })),
+
+      removeEducation: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            education: state.resumeData.education.filter((edu) => edu.id !== id),
           },
         })),
 

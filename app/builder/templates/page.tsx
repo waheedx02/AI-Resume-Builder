@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSyncExternalStore } from 'react';
 import { Check, Search, Sparkles, ChevronRight, FileText } from 'lucide-react';
 import { useResumeStore } from '@/lib/resume-store';
-import { TEMPLATES } from '@/lib/templates';
+import { resumeTemplates } from '@/lib/templates';
 import DynamicTemplateRenderer from '@/components/templates/DynamicTemplateRenderer';
 
 /* ------------------------------------------------------------------ */
@@ -19,10 +19,11 @@ const SCALE = CARD_WIDTH / DOC_WIDTH;
 
 const PREVIEW_DATA = {
   personalInfo: {
-    fullName: 'Jordan Michaels',
+    firstName: 'Jordan',
+    lastName: 'Michaels',
     title: 'Product Designer',
     email: 'jordan@email.com',
-    phone: '+1 (555) 012-3456',
+    mobile: '+1 (555) 012-3456',
     linkedin: 'linkedin.com/in/jordanm',
   },
   summary:
@@ -101,8 +102,8 @@ export default function TemplatesStep() {
   /* Filter templates by search query */
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return TEMPLATES;
-    return TEMPLATES.filter(
+    if (!q) return resumeTemplates;
+    return resumeTemplates.filter(
       (t) =>
         t.name.toLowerCase().includes(q) ||
         t.description.toLowerCase().includes(q) ||
@@ -193,7 +194,7 @@ export default function TemplatesStep() {
         <div className="flex flex-wrap justify-center gap-8">
           {filtered.map((tmpl, idx) => {
             const isSelected = resumeData.templateId === tmpl.id;
-            const hasUserData = Boolean(resumeData.personalInfo?.fullName);
+            const hasUserData = Boolean(resumeData.personalInfo?.firstName || resumeData.experience?.length || resumeData.skills?.length);
             const previewData = {
               ...resumeData,
               templateId: tmpl.id,

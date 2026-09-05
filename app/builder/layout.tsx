@@ -27,7 +27,11 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
       case 0: // Step 1: Template selection (always valid once a template is picked)
         return Boolean(resumeData.templateId);
       case 1: // Step 2: Personal Info
-        return Boolean(resumeData.personalInfo?.fullName && resumeData.personalInfo?.email);
+        return Boolean(
+          resumeData.personalInfo?.firstName &&
+          resumeData.personalInfo?.lastName &&
+          resumeData.personalInfo?.email
+        );
       case 2: // Step 3: Experience
         return resumeData.experience?.length > 0;
       case 3: // Step 4: AI Summary

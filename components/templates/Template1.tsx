@@ -1,4 +1,5 @@
-import { Mail, Phone, } from 'lucide-react';
+import { Mail, Phone, CircleUserRound } from 'lucide-react';
+
 import { ResumeData } from '../../types/resume';
 
 /* ------------------------------------------------------------------ */
@@ -17,9 +18,14 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export default function Template1({ data }: { data: ResumeData }) {
   const { personalInfo, experience, summary, education, skills, tools, languages } = data;
 
+  const fullName = [personalInfo?.firstName, personalInfo?.lastName]
+    .filter(Boolean)
+    .join(' ');
+
   const contactItems = [
-    personalInfo?.phone && { icon: <Phone size={11} />, text: personalInfo.phone },
+    personalInfo?.mobile && { icon: <Phone size={11} />, text: personalInfo.mobile },
     personalInfo?.email && { icon: <Mail size={11} />, text: personalInfo.email },
+    personalInfo?.linkedin && { icon: <CircleUserRound size={11} />, text: personalInfo.linkedin },
   ].filter(Boolean) as { icon: React.ReactNode; text: string }[];
 
   return (
@@ -29,7 +35,7 @@ export default function Template1({ data }: { data: ResumeData }) {
         <div className="flex items-start justify-between gap-6">
           <div>
             <h1 className="text-[27px] font-bold text-slate-900 leading-tight tracking-tight">
-              {personalInfo?.fullName || 'Your Name'}
+              {fullName || 'Your Name'}
             </h1>
             {personalInfo?.title && (
               <p className="text-blue-700 font-semibold text-[14px] mt-0.5 tracking-wide uppercase text-[12px]">

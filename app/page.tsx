@@ -185,7 +185,7 @@ export default function ResuMateLanding() {
               <Link href="/builder/templates" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 no-underline" style={{ background: 'linear-gradient(135deg, #14b8a6, #0d9488)', boxShadow: '0 4px 20px rgba(20, 184, 166, 0.3)' }}>
                 Build Your Resume Free →
               </Link>
-              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-teal-400 transition-all duration-300 no-underline">
+              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-teal-400 hover:text-[] transition-all duration-300 no-underline">
                 See How It Works
               </a>
             </div>
@@ -254,7 +254,7 @@ export default function ResuMateLanding() {
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-4xl font-extrabold text-white tracking-[-1px]">
-                {stat.number}<span className="text-teal-400">{stat.suffix}</span>
+                {stat.number}<span className="text-[]">{stat.suffix}</span>
               </div>
               <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
             </div>
@@ -442,7 +442,7 @@ export default function ResuMateLanding() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-1 max-w-[300px]">
             <div className="text-[22px] font-extrabold text-white tracking-[-0.5px] mb-4">
-              Resu<span className="text-teal-400">Mate</span>
+              Resu<span className="text-[]">Mate</span>
             </div>
             <p className="text-sm text-slate-500 leading-relaxed">
               The AI resume builder that helps job seekers create ATS-optimized, recruiter-approved resumes in minutes. Trusted by millions worldwide.
@@ -454,7 +454,7 @@ export default function ResuMateLanding() {
               <ul className="space-y-2.5 list-none">
                 {links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-sm text-slate-500 no-underline hover:text-teal-400 transition-colors duration-200">{link}</a>
+                    <a href="#" className="text-sm text-slate-500 no-underline hover:text-[] transition-colors duration-200">{link}</a>
                   </li>
                 ))}
               </ul>
@@ -465,7 +465,7 @@ export default function ResuMateLanding() {
           <p className="text-[13px] text-slate-600">© 2026 ResuMate AI. All rights reserved.</p>
           <div className="flex gap-4">
             {['𝕏', 'in', 'f', 'ig'].map((social) => (
-              <a key={social} href="#" className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-400 no-underline transition-all duration-200 hover:text-teal-400" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <a key={social} href="#" className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-400 no-underline transition-all duration-200 hover:text-[]" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 {social}
               </a>
             ))}

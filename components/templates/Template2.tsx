@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Mail, Phone, } from 'lucide-react';
+import { Mail, Phone, CircleUserRound } from 'lucide-react';
 import { ResumeData } from '../../types/resume';
 
 /* ------------------------------------------------------------------ */
@@ -31,17 +31,15 @@ export default function Template2({ data }: { data: ResumeData }) {
 
   const safeLanguages = languages ?? [];
 
-  const initials = (personalInfo?.fullName || 'Your Name')
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
+  const firstName = personalInfo?.firstName || 'Your';
+  const lastName = personalInfo?.lastName || 'Name';
+
+  const initials = `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
 
   const contactItems = [
-    personalInfo?.phone && { icon: <Phone size={12} />, text: personalInfo.phone },
+    personalInfo?.mobile && { icon: <Phone size={12} />, text: personalInfo.mobile },
     personalInfo?.email && { icon: <Mail size={12} />, text: personalInfo.email },
-
+    personalInfo?.linkedin && { icon: <CircleUserRound size={12} />, text: personalInfo.linkedin },
   ].filter(Boolean) as { icon: React.ReactNode; text: string }[];
 
   return (
@@ -51,10 +49,10 @@ export default function Template2({ data }: { data: ResumeData }) {
         {/* Avatar */}
         <div className="flex flex-col items-center gap-3">
           <div className="w-24 h-24 rounded-full bg-slate-600 border-4 border-blue-600 overflow-hidden flex items-center justify-center">
-            {personalInfo?.photoUrl ? (
+            {personalInfo?.profilePicUrl ? (
               <Image
-                src={personalInfo.photoUrl}
-                alt={personalInfo.fullName || 'Profile photo'}
+                src={personalInfo.profilePicUrl}
+                alt={`${firstName} ${lastName}`.trim() || 'Profile photo'}
                 width={96}
                 height={96}
                 className="w-full h-full object-cover"
@@ -118,10 +116,8 @@ export default function Template2({ data }: { data: ResumeData }) {
         {/* Header */}
         <header className="mb-2">
           <h1 className="text-[26px] font-extrabold leading-tight text-slate-900">
-            <span className="text-slate-900">{personalInfo?.fullName?.split(' ')[0] || 'Your'}</span>{' '}
-            <span className="text-blue-700">
-              {personalInfo?.fullName?.split(' ').slice(1).join(' ') || 'Name'}
-            </span>
+            <span className="text-slate-900">{firstName}</span>{' '}
+            <span className="text-blue-700">{lastName}</span>
           </h1>
           {personalInfo?.title && (
             <p className="text-slate-500 font-medium mt-0.5 tracking-wide">{personalInfo.title}</p>
