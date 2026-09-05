@@ -6,6 +6,7 @@ import { useSyncExternalStore } from 'react';
 import { Check, Search, Sparkles, ChevronRight, FileText } from 'lucide-react';
 import { useResumeStore } from '@/lib/resume-store';
 import { resumeTemplates } from '@/lib/templates';
+import { useBuilderStep } from '@/lib/steps';
 import DynamicTemplateRenderer from '@/components/templates/DynamicTemplateRenderer';
 
 /* ------------------------------------------------------------------ */
@@ -88,6 +89,7 @@ export default function TemplatesStep() {
 
   const resumeData = useResumeStore((state) => state.resumeData);
   const setTemplateId = useResumeStore((state) => state.setTemplateId);
+  const { index, total } = useBuilderStep();
 
   const [query, setQuery] = useState('');
   const [entering, setEntering] = useState(true);
@@ -158,8 +160,8 @@ export default function TemplatesStep() {
     <div className="max-w-5xl mx-auto px-4 pb-12">
       {/* ---------- Header ---------- */}
       <div className="text-center space-y-4 mb-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#10B981]/10 text-[#10B981] text-xs font-semibold rounded-full border border-[#10B981]/20">
-          <Sparkles size={12} /> Step 1 of 5
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-400/10 text-teal-400 text-xs font-semibold rounded-full border border-teal-400/20">
+          <Sparkles size={12} /> Step {index + 1} of {total}
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
           Pick the layout your experience deserves
@@ -180,7 +182,7 @@ export default function TemplatesStep() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search templates…"
-          className="w-full bg-slate-900/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-[#10B981]/50 focus:ring-2 focus:ring-[#10B981]/20 transition"
+          className="w-full bg-slate-900/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-teal-400/50 focus:ring-2 focus:ring-teal-400/20 transition"
         />
       </div>
 
@@ -223,9 +225,9 @@ export default function TemplatesStep() {
                     handleSelectTemplate(tmpl.id);
                   }
                 }}
-                className={`group relative flex flex-col bg-slate-900 rounded-2xl border cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]/60 ${
+                className={`group relative flex flex-col bg-slate-900 rounded-2xl border cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/60 ${
                   isSelected
-                    ? 'border-[#10B981] ring-2 ring-[#10B981]/40 shadow-xl shadow-[#10B981]/10'
+                    ? 'border-teal-400 ring-2 ring-teal-400/40 shadow-xl shadow-teal-400/10'
                     : 'border-slate-800 hover:border-slate-600'
                 }`}
                 style={{
@@ -248,7 +250,7 @@ export default function TemplatesStep() {
                   </div>
 
                   {isSelected && (
-                    <div className="absolute top-3 right-3 bg-[#10B981] text-slate-950 font-bold px-2.5 py-1 rounded-full text-[11px] shadow-md flex items-center gap-1">
+                    <div className="absolute top-3 right-3 bg-[#0B132B] text-teal-400 font-bold px-2.5 py-1 rounded-full text-[11px] shadow-md flex items-center gap-1">
                       <Check size={12} strokeWidth={3} /> Selected
                     </div>
                   )}
@@ -264,7 +266,7 @@ export default function TemplatesStep() {
                   <div>
                     <h3
                       className={`text-base font-bold mb-1 transition-colors ${
-                        isSelected ? 'text-[#10B981]' : 'text-white group-hover:text-[#10B981]'
+                        isSelected ? 'text-teal-400' : 'text-white group-hover:text-teal-400'
                       }`}
                     >
                       {tmpl.name}
@@ -278,7 +280,7 @@ export default function TemplatesStep() {
                     }}
                     className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1 ${
                       isSelected
-                        ? 'bg-[#10B981] text-slate-950 hover:bg-[#0EA5E9] hover:text-white'
+                        ? 'bg-teal-400 text-slate-950 hover:bg-[#0EA5E9] hover:text-white'
                         : 'bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white'
                     }`}
                   >

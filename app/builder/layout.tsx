@@ -3,14 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useResumeStore } from '@/lib/resume-store';
-
-const STEPS = [
-  { id: 1, name: 'Template', path: '/builder/templates' },
-  { id: 2, name: 'Personal Info', path: '/builder/personal-info' },
-  { id: 3, name: 'Experience', path: '/builder/experience' },
-  { id: 4, name: 'AI Summary', path: '/builder/ai-summary' },
-  { id: 5, name: 'Preview', path: '/builder/preview' },
-];
+import { BUILDER_STEPS } from '@/lib/steps';
 
 export default function BuilderLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -18,23 +11,29 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
 
   const resumeData = useResumeStore((state) => state.resumeData);
 
-  const currentStepIndex = STEPS.findIndex((step) => step.path === pathname);
+  const currentStepIndex = BUILDER_STEPS.findIndex((step) => step.path === pathname);
   const activeStep = currentStepIndex !== -1 ? currentStepIndex : 0;
 
-  // Validation checks per step
-  const isStepValid = (stepIndex: number) => {
-    switch (stepIndex) {
-      case 0: // Step 1: Template selection (always valid once a template is picked)
+  // Validation checks per step — keyed by path rather than index, so
+  // reordering BUILDER_STEPS later can't silently point this at the
+  // wrong step.
+  const isStepValid = (path: string) => {
+    switch (path) {
+      case '/builder/templates':
         return Boolean(resumeData.templateId);
-      case 1: // Step 2: Personal Info
+      case '/builder/personal-info':
         return Boolean(
           resumeData.personalInfo?.firstName &&
           resumeData.personalInfo?.lastName &&
           resumeData.personalInfo?.email
         );
-      case 2: // Step 3: Experience
+      case '/builder/experience':
         return resumeData.experience?.length > 0;
-      case 3: // Step 4: AI Summary
+      case '/builder/education':
+        return true; // education + languages are both optional
+      case '/builder/skills':
+        return resumeData.skills?.length > 0; // tools (same page) stay optional
+      case '/builder/ai-summary':
         return Boolean(resumeData.summary);
       default:
         return true;
@@ -42,18 +41,18 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
   };
 
   const handleNext = () => {
-    if (currentStepIndex < STEPS.length - 1) {
-      router.push(STEPS[currentStepIndex + 1].path);
+    if (currentStepIndex < BUILDER_STEPS.length - 1) {
+      router.push(BUILDER_STEPS[currentStepIndex + 1].path);
     }
   };
 
   const handleBack = () => {
     if (currentStepIndex > 0) {
-      router.push(STEPS[currentStepIndex - 1].path);
+      router.push(BUILDER_STEPS[currentStepIndex - 1].path);
     }
   };
 
-  const isNextDisabled = !isStepValid(currentStepIndex);
+  const isNextDisabled = !isStepValid(pathname);
 
   return (
     <div className="min-h-screen bg-[#0B132B] text-white flex flex-col justify-between">
@@ -61,17 +60,17 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
       <header className="border-b border-slate-800 bg-[#0B132B]/90 backdrop-blur sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-[#10B981] text-slate-900 font-bold flex items-center justify-center text-lg">
+            <span className="w-8 h-8 rounded-lg bg-teal-400 text-slate-900 font-bold flex items-center justify-center text-lg">
               R
             </span>
             <span className="text-xl font-bold tracking-tight">
-              Resu<span className="text-[#10B981]">Mate</span>
+              Resu<span className="text-teal-400">Mate</span>
             </span>
           </Link>
 
           {/* Stepper Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            {STEPS.map((step, idx) => {
+            {BUILDER_STEPS.map((step, idx) => {
               const isActive = idx === currentStepIndex;
               const isCompleted = idx < currentStepIndex;
 
@@ -80,7 +79,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                   <div
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition ${
                       isActive
-                        ? 'bg-[#10B981]/10 border-[#10B981] text-[#10B981]'
+                        ? 'bg-teal-400/10 border-teal-400 text-teal-400'
                         : isCompleted
                         ? 'border-slate-700 bg-slate-800/50 text-slate-300'
                         : 'border-slate-800 text-slate-500'
@@ -89,7 +88,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                     <span
                       className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
                         isActive
-                          ? 'bg-[#10B981] text-slate-900 font-bold'
+                          ? 'bg-teal-400 text-slate-900 font-bold'
                           : isCompleted
                           ? 'bg-slate-700 text-slate-300'
                           : 'bg-slate-800 text-slate-500'
@@ -99,7 +98,7 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
                     </span>
                     {step.name}
                   </div>
-                  {idx < STEPS.length - 1 && <span className="text-slate-700 text-xs">/</span>}
+                  {idx < BUILDER_STEPS.length - 1 && <span className="text-teal-400 text-xs">/</span>}
                 </div>
               );
             })}
@@ -109,8 +108,8 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
         {/* Top Progress Line */}
         <div className="w-full bg-slate-800 h-1">
           <div
-            className="bg-[#10B981] h-1 transition-all duration-300"
-            style={{ width: `${((activeStep + 1) / STEPS.length) * 100}%` }}
+            className="bg-teal-400 h-1 transition-all duration-300"
+            style={{ width: `${((activeStep + 1) / BUILDER_STEPS.length) * 100}%` }}
           />
         </div>
       </header>
@@ -130,13 +129,13 @@ export default function BuilderLayout({ children }: { children: React.ReactNode 
           </button>
 
           <span className="text-xs text-slate-400">
-            Step {currentStepIndex + 1} of {STEPS.length}
+            Step {currentStepIndex + 1} of {BUILDER_STEPS.length}
           </span>
 
           <button
             onClick={handleNext}
-            disabled={isNextDisabled || currentStepIndex >= STEPS.length - 1}
-            className="px-6 py-2.5 rounded-lg bg-[#10B981] text-slate-950 hover:bg-[#0EA5E9] transition text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={isNextDisabled || currentStepIndex >= BUILDER_STEPS.length - 1}
+            className="px-6 py-2.5 rounded-lg bg-teal-400 text-slate-950 hover:bg-teal-500 transition text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Continue →
           </button>

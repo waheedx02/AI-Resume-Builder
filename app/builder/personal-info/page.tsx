@@ -4,10 +4,12 @@ import { useRef } from 'react';
 import { Sparkles, User, Upload, X } from 'lucide-react';
 import { useResumeStore } from '@/lib/resume-store';
 import { resumeTemplates } from '@/lib/templates';
+import { useBuilderStep } from '@/lib/steps';
 
 export default function PersonalInfoStep() {
   const resumeData = useResumeStore((state) => state.resumeData);
   const updatePersonalInfo = useResumeStore((state) => state.updatePersonalInfo);
+  const { index, total } = useBuilderStep();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const selectedTemplate = resumeTemplates.find((t) => t.id === resumeData.templateId);
@@ -34,8 +36,8 @@ export default function PersonalInfoStep() {
     <div className="max-w-2xl mx-auto px-4 pb-12">
       {/* ---------- Header ---------- */}
       <div className="text-center space-y-4 mb-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#10B981]/10 text-[#10B981] text-xs font-semibold rounded-full border border-[#10B981]/20">
-          <Sparkles size={12} /> Step 2 of 5
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-400/10 text-teal-400 text-xs font-semibold rounded-full border border-teal-400/20">
+          <Sparkles size={12} /> Step {index + 1} of {total}
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
           Tell us about yourself
@@ -169,7 +171,7 @@ export default function PersonalInfoStep() {
 /* ------------------------------------------------------------------ */
 
 const inputClasses =
-  'w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-[#10B981]/50 focus:ring-2 focus:ring-[#10B981]/20 transition';
+  'w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-teal-400/50 focus:ring-2 focus:ring-teal-400/20 transition';
 
 function Field({
   label,
@@ -185,7 +187,7 @@ function Field({
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-        {label} {required && <span className="text-[#10B981]">*</span>}
+        {label} {required && <span className="text-teal-400">*</span>}
       </label>
       {children}
       {hint && <p className="text-[11px] text-slate-500 mt-1">{hint}</p>}
